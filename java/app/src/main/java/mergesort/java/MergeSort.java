@@ -6,43 +6,61 @@ package mergesort.java;
 public class MergeSort {
 
     public static int[] mergeSort(int[] array) {
-        if (array.length == 1) {
-            return array;
-        }
-
-        // int[] array = { 50, 1, 70, 48, 36, 96, 15, 3, 74, 100};
-        int left1 = array[0];
-        int right1 = array[array.length/2-1];
-        System.out.println("left:" + left1);
-        System.out.println("right:" + right1);
-        int[] l1 = { left1, right1 };
-
-        int left2 = array[array.length/2];
-        int right2 = array[array.length-1];
-        System.out.println("left2:" + left2);
-        System.out.println("right2:" + right2);
-        int[] l2 = { left2, right2 };
-
-//        System.out.println("left array" + l1.toString());
-//        System.out.println("right array" + l2.toString());
-
-        l1 = mergeSort(l1);
-        l2 = mergeSort(l2);
-
+        sort(array, 0, array.length - 1);
         return array;
     }
 
-    public static int[] mergeSort(int[] l1, int[] l2) {
+    private static void sort(int[] array, int l, int r) {
+        if (l < r) {
+            int middle = (l + r) / 2;
 
-        int[] result;
+            sort(array, l, middle);
+            sort(array, middle + 1, r);
 
-        while (l1.length > 0 && l2.length > 0) {
-           if (l1[0] > l2[0]) {
-               result.
-           }
+            merge(array, l, middle, r);
+        }
+    }
+
+    public static void merge(int[] array, int l, int m, int r) {
+
+        int n1 = m - l + 1;
+        int n2 = r - m;
+
+        int[] L = new int[n1];
+        int[] R = new int[n2];
+
+        for(int i = 0; i < n1; ++i) {
+            L[i] = array[l + i];
         }
 
-        return array;
+        for(int i = 0; i < n2; ++i) {
+            R[i] = array[m + 1 + i];
+        }
+
+        int i = 0, j = 0;
+        int k = l;
+        while (i < n1 && j < n2) {
+           if (L[i] <= R[j]) {
+               array[k] = L[i];
+               i++;
+           } else {
+               array[k] = R[j];
+               j++;
+           }
+           k++;
+        }
+
+        while (i < n1) {
+            array[k] = L[i];
+            i++;
+            k++;
+        }
+
+        while (j < n2) {
+            array[k] = R[j];
+            j++;
+            k++;
+        }
     }
 
     public static void main(String[] args) {
